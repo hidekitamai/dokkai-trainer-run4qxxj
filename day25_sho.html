@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>読解トレーニング Day25 - 翔</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-soft: #eff6ff;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 18px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem; margin: 0 0 8px;
+    color: var(--primary);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .section {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .body-text {
+    background: var(--primary-soft); padding: 14px; border-radius: 8px;
+    margin-bottom: 18px; font-size: 1.05rem;
+  }
+  .question {
+    margin: 18px 0 22px; padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .question:last-child { border-bottom: none; }
+  .q-text { font-weight: 600; margin-bottom: 12px; }
+  .q-text .qnum {
+    display: inline-block; min-width: 1.8em;
+    color: var(--primary); font-weight: 700;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    background: #fff; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    cursor: pointer; text-align: left;
+    font: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-soft);
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice.correct { border-color: var(--correct); background: #dcfce7; }
+  .choice.wrong { border-color: var(--wrong); background: #fee2e2; }
+  .feedback {
+    margin-top: 10px; font-weight: 700; font-size: 1.1rem;
+    min-height: 1.5em;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  #summary {
+    background: var(--card); border-radius: 12px;
+    padding: 24px; margin-top: 20px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: none;
+  }
+  #summary.show { display: block; }
+  #summary .score {
+    font-size: 2rem; font-weight: 700; color: var(--primary);
+    margin: 8px 0;
+  }
+  #summary .praise {
+    font-size: 1.4rem; font-weight: 700; color: var(--correct);
+    margin: 12px 0;
+  }
+  #summary .praise.partial { color: var(--primary); }
+  #summary .saved-note {
+    color: var(--muted); font-size: 0.85rem; margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>翔の読解トレーニング Day<span id="day-num">25</span></h1>
+  <div class="meta">レベル: <span id="level-display">Lv1</span> ／ 日付: <span id="date-display"></span></div>
+
+  <div class="section">
+    <div class="body-text" id="body-text"></div>
+    <div id="questions"></div>
+  </div>
+
+  <div id="summary">
+    <div>今日の結果</div>
+    <div class="score"><span id="final-correct">0</span>／<span id="final-total">5</span> 問 正解</div>
+    <div class="praise" id="praise-msg"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </div>
+</div>
+
+<script type="application/json" id="quiz-data">{"day": 25, "person": "sho", "name": "翔", "level": 1, "body": "毎日少しずつ本を読むと、ことばの引き出しが増えていく。たとえば、知らない言葉に出会ったとき、その意味を前後の文から想像できるようになる。", "questions": [{"q": "本文中の「たとえば」はどんな働きをしていますか。", "choices": ["反対のことを言う", "前の内容の具体例を示す", "結論を述べる"], "answer": 1}, {"q": "毎日少しずつ本を読むと何が増えていくと書かれていますか。", "choices": ["体重", "ことばの引き出し", "持ち物"], "answer": 1}, {"q": "知らない言葉に出会ったとき、どんなことができるようになると書かれていますか。", "choices": ["辞書を作れる", "前後の文から意味を想像できる", "本を捨てたくなる"], "answer": 1}, {"q": "この文章のいちばん言いたいことはどれですか。", "choices": ["本は新しいものを買う方がよい", "毎日少しずつ読むと語彙の力が育つ", "難しい言葉は使わない方がよい"], "answer": 1}, {"q": "「ことばの引き出しが増える」とは、どういう意味に近いですか。", "choices": ["家具が増える", "使える言葉が増える", "話す時間が増える"], "answer": 1}]}</script>
+<script>
+(function () {
+  "use strict";
+  const data = JSON.parse(document.getElementById("quiz-data").textContent);
+  const config = window.__DOKKAI_CONFIG__ || {};
+  const person = data.person; // "sho" or "rin"
+  const total = data.questions.length;
+
+  document.getElementById("date-display").textContent =
+    new Date().toLocaleDateString("ja-JP");
+  document.getElementById("body-text").textContent = data.body;
+  document.getElementById("final-total").textContent = String(total);
+
+  const state = { answers: [], correct: 0, answered: 0 };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render() {
+    const container = document.getElementById("questions");
+    data.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      const qText = document.createElement("div");
+      qText.className = "q-text";
+      qText.innerHTML = '<span class="qnum">Q' + (idx + 1) + '.</span> ' + escapeHtml(q.q);
+      qDiv.appendChild(qText);
+      const choicesDiv = document.createElement("div");
+      choicesDiv.className = "choices";
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
+        choicesDiv.appendChild(btn);
+      });
+      qDiv.appendChild(choicesDiv);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      qDiv.appendChild(fb);
+      container.appendChild(qDiv);
+    });
+  }
+
+  function handleAnswer(idx, chosen, qDiv, btn) {
+    const q = data.questions[idx];
+    const isCorrect = chosen === q.answer;
+    qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
+    btn.classList.add(isCorrect ? "correct" : "wrong");
+    if (!isCorrect) {
+      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      if (correctBtn) correctBtn.classList.add("correct");
+    }
+    const fb = qDiv.querySelector(".feedback");
+    fb.classList.add(isCorrect ? "correct" : "wrong");
+    fb.textContent = isCorrect ? "○ 正解！" : "× 不正解 — 正しい答えは緑色のボタンです";
+    state.answers[idx] = { chosen, correct: isCorrect };
+    if (isCorrect) state.correct++;
+    state.answered++;
+    if (state.answered === total) showSummary();
+  }
+
+  function showSummary() {
+    const sum = document.getElementById("summary");
+    sum.classList.add("show");
+    document.getElementById("final-correct").textContent = state.correct;
+    const praise = document.getElementById("praise-msg");
+    if (state.correct === total) {
+      praise.textContent = "頑張ったね！満点 🎉";
+      praise.classList.remove("partial");
+    } else if (state.correct >= Math.ceil(total * 0.6)) {
+      praise.textContent = "よくできました！";
+      praise.classList.add("partial");
+    } else {
+      praise.textContent = "おつかれさま！また明日もがんばろう。";
+      praise.classList.add("partial");
+    }
+    saveAndSubmit();
+    sum.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function saveAndSubmit() {
+    const record = {
+      day: data.day,
+      person: person,
+      name: data.name,
+      level: data.level || 1,
+      correct: state.correct,
+      total: total,
+      submitted_at: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 80)
+    };
+    try {
+      const key = "dokkai_results_" + person;
+      const prev = JSON.parse(localStorage.getItem(key) || "[]");
+      prev.push(record);
+      localStorage.setItem(key, JSON.stringify(prev));
+    } catch (e) {}
+    if (config.formPostUrl && config.formFields) {
+      const fd = new FormData();
+      const f = config.formFields;
+      if (f.day) fd.append(f.day, String(record.day));
+      if (f.person) fd.append(f.person, person);
+      if (f.score_correct) fd.append(f.score_correct, String(record.correct));
+      if (f.score_total) fd.append(f.score_total, String(record.total));
+      if (f.level) fd.append(f.level, String(record.level));
+      fetch(config.formPostUrl, { method: "POST", body: fd, mode: "no-cors" })
+        .then(() => { document.getElementById("saved-note").textContent = "結果を記録しました ✓"; })
+        .catch(() => { document.getElementById("saved-note").textContent = "結果はこの端末に保存しました"; });
+    } else {
+      document.getElementById("saved-note").textContent = "結果はこの端末に保存しました";
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
