@@ -153,9 +153,15 @@ window.__DOKKAI_CONFIG__ = {
       qDiv.appendChild(qText);
       const choicesDiv = document.createElement("div");
       choicesDiv.className = "choices";
-      q.choices.forEach((c, ci) => {
+      const order = q.choices.map((_, i) => i);
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = order[i]; order[i] = order[j]; order[j] = t;
+      }
+      order.forEach((ci) => {
         const btn = document.createElement("button");
-        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.className = "choice"; btn.type = "button"; btn.textContent = q.choices[ci];
+        btn.dataset.choice = ci;
         btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
         choicesDiv.appendChild(btn);
       });
@@ -173,7 +179,7 @@ window.__DOKKAI_CONFIG__ = {
     qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
     btn.classList.add(isCorrect ? "correct" : "wrong");
     if (!isCorrect) {
-      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      const correctBtn = qDiv.querySelector('.choice[data-choice="' + q.answer + '"]');
       if (correctBtn) correctBtn.classList.add("correct");
     }
     const fb = qDiv.querySelector(".feedback");
