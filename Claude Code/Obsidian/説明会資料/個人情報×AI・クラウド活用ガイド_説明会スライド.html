@@ -1,0 +1,638 @@
+<title>個人情報 × AI・クラウド活用ガイド</title>
+<style>
+  :root{
+    --paper:#FBF6EC;
+    --ink:#4B4640;
+    --ink-soft:#8C8172;
+    --line: rgba(75,70,64,0.55);
+    --beige:#F1E3C6;
+    --beige-deep:#E4CFA0;
+    --blue:#DCEAF2;
+    --blue-deep:#9CC3D8;
+    --green:#DEEBDA;
+    --green-deep:#93BE96;
+    --orange:#F8DCBE;
+    --orange-deep:#E7A465;
+    --pink:#F6DBDA;
+    --pink-deep:#D98B85;
+    --accent:#C1652E;
+    --trust:#2F6F82;
+    --stop:#B14A42;
+    --skin:#F3D7BC;
+    --shadow: 0 1.2em 2.6em -1.6em rgba(75,70,64,0.55), 0 0.3em 0.6em -0.3em rgba(75,70,64,0.25);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(228,207,160,0.35), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(156,195,216,0.28), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic","Meiryo",sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:2.2em 1em 1.4em;
+    overflow-x:hidden;
+  }
+
+  .heading-face{
+    font-family:"Hiragino Maru Gothic ProN","UD Digital 教科書体N-R","BIZ UDPGothic","Yu Gothic","Meiryo",sans-serif;
+  }
+
+  .masthead{
+    text-align:center;
+    margin-bottom:1em;
+  }
+  .masthead .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    color:var(--ink-soft);
+    font-weight:700;
+  }
+  .masthead h1{
+    font-size:clamp(1.05rem,2.4vw,1.5rem);
+    margin:0.25em 0 0;
+    font-weight:700;
+  }
+
+  .stage{
+    width:min(92vw, 156vh);
+    max-width:1180px;
+  }
+
+  .deck{
+    position:relative;
+    display:flex;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    border-radius:1.6em;
+    box-shadow:var(--shadow);
+    scrollbar-width:none;
+    background:var(--paper);
+  }
+  .deck::-webkit-scrollbar{display:none;}
+  @media (prefers-reduced-motion: no-preference){
+    .deck{scroll-behavior:smooth;}
+  }
+
+  .slide{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    aspect-ratio:16/9;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(1.1em,3vw,2.2em) clamp(1.4em,4.4vw,3.2em);
+    font-size:clamp(0.72rem,1.55vw,1.18rem);
+    overflow:hidden;
+  }
+  .slide::after{
+    content:"";
+    position:absolute; inset:0.6em;
+    border:1.5px solid var(--line);
+    border-radius:1.15em;
+    opacity:0.35;
+    pointer-events:none;
+  }
+
+  .bg-beige{background:linear-gradient(155deg,var(--beige),#F8EFDA 65%);}
+  .bg-blue{background:linear-gradient(155deg,var(--blue),#EAF3F8 65%);}
+  .bg-green{background:linear-gradient(155deg,var(--green),#EDF5EA 65%);}
+  .bg-orange{background:linear-gradient(155deg,var(--orange),#FBEBDA 65%);}
+  .bg-pink{background:linear-gradient(155deg,var(--pink),#FBEAEA 65%);}
+
+  .kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5em;
+    font-size:0.75em;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    margin-bottom:0.6em;
+  }
+  .kicker .dot{width:0.55em;height:0.55em;border-radius:50%;background:var(--accent);}
+
+  h2.slide-title{
+    font-size:1.7em;
+    line-height:1.3;
+    margin:0 0 0.55em;
+    font-weight:700;
+    text-wrap:balance;
+    color:var(--ink);
+  }
+
+  .body-row{
+    display:flex;
+    align-items:center;
+    gap:clamp(1em,3vw,2.4em);
+    flex:1;
+    min-height:0;
+  }
+  .body-row.reverse{flex-direction:row-reverse;}
+
+  .text-col{flex:1 1 55%; min-width:0;}
+  .art-col{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .art-col svg{width:clamp(110px,17vw,220px); height:auto; overflow:visible;}
+
+  ul.points{
+    margin:0; padding:0; list-style:none;
+    display:flex; flex-direction:column; gap:0.55em;
+  }
+  ul.points li{
+    display:flex; gap:0.6em; align-items:flex-start;
+    line-height:1.55;
+  }
+  ul.points li .bullet{
+    flex:none; width:1.5em; height:1.5em; margin-top:0.05em;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.6);
+    border:1.5px solid var(--line);
+    font-size:0.72em; font-weight:700; color:var(--accent);
+  }
+
+  .quote-card{
+    background:rgba(255,255,255,0.55);
+    border:1.5px solid var(--line);
+    border-radius:1em;
+    padding:0.85em 1.1em;
+    font-weight:700;
+    font-size:1.2em;
+    line-height:1.5;
+    text-wrap:balance;
+    box-shadow:0 0.4em 0 -0.15em rgba(75,70,64,0.08);
+  }
+
+  .caption-note{
+    margin-top:0.75em;
+    font-size:0.72em;
+    color:var(--ink-soft);
+    letter-spacing:0.02em;
+  }
+
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0.8em;
+    flex:1;
+  }
+  .tile{
+    background:rgba(255,255,255,0.62);
+    border:1.5px solid var(--line);
+    border-radius:0.9em;
+    padding:0.8em 0.9em;
+    display:flex; gap:0.7em; align-items:flex-start;
+  }
+  .tile svg{width:2.6em;height:2.6em;flex:none;}
+  .tile h3{margin:0 0 0.2em; font-size:1em; font-weight:700;}
+  .tile p{margin:0; font-size:0.85em; line-height:1.45; color:var(--ink);}
+
+  .triage-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0.9em;
+    flex:1;
+    min-height:0;
+  }
+  .triage-card{
+    border-radius:1em;
+    padding:0.9em 0.85em;
+    display:flex; flex-direction:column; gap:0.5em;
+    border:1.5px solid var(--line);
+  }
+  .triage-card.ok{background:linear-gradient(165deg,#EAF4E7,#F7FBF3);}
+  .triage-card.limited{background:linear-gradient(165deg,#FBEAD3,#FDF4E7);}
+  .triage-card.no{background:linear-gradient(165deg,#F9E1E0,#FDF1F0);}
+  .triage-tag{
+    align-self:flex-start;
+    font-size:0.72em; font-weight:700;
+    padding:0.25em 0.65em;
+    border-radius:1.4em;
+    color:#fff;
+  }
+  .triage-card.ok .triage-tag{background:var(--trust);}
+  .triage-card.limited .triage-tag{background:var(--orange-deep);}
+  .triage-card.no .triage-tag{background:var(--stop);}
+  .triage-card h3{margin:0; font-size:1.02em; font-weight:700; line-height:1.35;}
+  .triage-card p{margin:0; font-size:0.82em; line-height:1.5; color:var(--ink);}
+  .triage-card svg{width:2.4em;height:2.4em;}
+
+  .example-row{display:flex; flex-direction:column; gap:0.55em; margin-top:0.7em;}
+  .example{
+    display:flex; align-items:center; gap:0.6em;
+    background:rgba(255,255,255,0.55);
+    border:1.5px solid var(--line);
+    border-radius:0.8em;
+    padding:0.55em 0.8em;
+    font-size:0.86em;
+  }
+  .example .mark{flex:none; font-weight:800; font-size:1.1em;}
+  .example.good .mark{color:var(--trust);}
+  .example.bad .mark{color:var(--stop);}
+
+  .num-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7em;}
+  .num-list li{display:flex; gap:0.75em; align-items:flex-start; font-size:1.05em; line-height:1.5;}
+  .num-list .num{
+    flex:none; width:1.7em;height:1.7em; border-radius:50%;
+    background:var(--accent); color:#fff; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    font-variant-numeric:tabular-nums;
+    font-size:0.85em;
+  }
+
+  .footer-line{
+    margin-top:auto; padding-top:0.6em;
+    font-size:0.7em; color:var(--ink-soft);
+    display:flex; justify-content:space-between; align-items:center;
+    gap:1em;
+  }
+
+  /* --- nav controls --- */
+  .controls{
+    display:flex; align-items:center; gap:1em;
+    margin-top:1.1em;
+  }
+  .nav-btn{
+    width:2.6em;height:2.6em; border-radius:50%;
+    border:1.5px solid var(--line);
+    background:rgba(255,255,255,0.75);
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 0.25em 0.5em -0.3em rgba(75,70,64,0.4);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .nav-btn:hover{background:#fff;}
+  .nav-btn:active{transform:scale(0.94);}
+  .nav-btn:focus-visible{outline:2.5px solid var(--accent); outline-offset:2px;}
+  .nav-btn svg{width:1.1em;height:1.1em;}
+
+  .dots{display:flex; gap:0.5em;}
+  .dots button{
+    width:0.6em; height:0.6em; border-radius:50%;
+    border:1.5px solid var(--line);
+    background:rgba(255,255,255,0.5);
+    padding:0; cursor:pointer;
+  }
+  .dots button[aria-current="true"]{background:var(--accent); border-color:var(--accent);}
+  .dots button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+  .counter{
+    font-size:0.78rem; color:var(--ink-soft); font-weight:700;
+    font-variant-numeric:tabular-nums;
+    min-width:3.4em; text-align:center;
+  }
+
+  .sketchy{filter:url(#sketchy);}
+
+  @media (max-width:720px){
+    .tile-grid, .triage-grid{grid-template-columns:1fr;}
+    .body-row, .body-row.reverse{flex-direction:column; text-align:center;}
+    .art-col svg{width:clamp(90px,30vw,150px);}
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="sketchy" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="masthead">
+  <div class="eyebrow">事務所内勉強会 資料</div>
+  <h1 class="heading-face">個人情報 × AI・クラウド活用ガイド</h1>
+</div>
+
+<div class="stage">
+  <div class="deck" id="deck" tabindex="0" aria-label="スライド">
+
+    <!-- SLIDE 0 : TITLE -->
+    <section class="slide bg-beige">
+      <div class="body-row" style="align-items:center;">
+        <div class="text-col" style="text-align:left;">
+          <div class="kicker"><span class="dot"></span>はじめに</div>
+          <h2 class="slide-title heading-face" style="font-size:2.1em;">個人情報 ×<br>AI・クラウド活用ガイド</h2>
+          <p style="font-size:1.05em; line-height:1.7; margin:0.4em 0 0;">Slack・Claude・Bedrock・Dropboxを、<br>安心して使うために知っておきたいこと</p>
+          <p class="caption-note" style="margin-top:1.2em;">弁護士法人親和法律事務所松山事務所</p>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 160 180" class="sketchy">
+            <ellipse cx="80" cy="168" rx="52" ry="8" fill="rgba(75,70,64,0.08)"/>
+            <path d="M50 175 L50 100 Q50 70 80 70 Q110 70 110 100 L110 175 Z" fill="var(--blue-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+            <circle cx="80" cy="50" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M52 42 Q80 8 108 42 Q108 20 80 18 Q52 20 52 42Z" fill="#6B5645" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="70" cy="52" r="3" fill="var(--ink)"/>
+            <circle cx="90" cy="52" r="3" fill="var(--ink)"/>
+            <path d="M70 63 Q80 70 90 63" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="60" cy="58" r="5" fill="var(--pink-deep)" opacity="0.5"/>
+            <circle cx="100" cy="58" r="5" fill="var(--pink-deep)" opacity="0.5"/>
+            <path d="M108 105 Q140 95 138 60" fill="none" stroke="var(--skin)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M108 105 Q140 95 138 60" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M18 20 L26 14 M22 26 L32 26 M18 32 L26 38" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 1 : BACKGROUND -->
+    <section class="slide bg-blue">
+      <div class="kicker"><span class="dot"></span>背景</div>
+      <h2 class="slide-title heading-face">なぜこの説明会を開くの？</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <ul class="points">
+            <li><span class="bullet">1</span>事務所では <strong>Slack・Claude・Dropbox</strong> を日常的に使っています</li>
+            <li><span class="bullet">2</span>これから <strong>Bedrock（AI）</strong> も加わる予定です</li>
+            <li><span class="bullet">3</span>依頼者の個人情報を扱う以上、みんなで共通のルールを持つ必要があります</li>
+          </ul>
+          <p class="caption-note">今日は「何を」「どこに」入力していいかを、まとめてお伝えします。</p>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 170 170" class="sketchy">
+            <rect x="15" y="115" width="140" height="6" rx="3" fill="rgba(75,70,64,0.12)"/>
+            <rect x="20" y="60" width="70" height="55" rx="8" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M30 78 h50 M30 90 h34 M30 102 h44" stroke="var(--blue-deep)" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="120" cy="55" r="26" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M96 48 Q120 20 144 48 Q144 32 120 30 Q96 32 96 48Z" fill="#6B5645" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="112" cy="57" r="2.6" fill="var(--ink)"/>
+            <circle cx="128" cy="57" r="2.6" fill="var(--ink)"/>
+            <path d="M112 66 Q120 71 128 66" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M96 78 Q80 70 70 82 L86 96 Q98 92 96 78Z" fill="var(--blue-deep)" stroke="var(--ink)" stroke-width="2.2"/>
+            <path d="M144 78 Q160 90 150 108 L134 96 Q140 84 144 78Z" fill="var(--blue-deep)" stroke="var(--ink)" stroke-width="2.2"/>
+            <rect x="98" y="82" width="46" height="52" rx="10" fill="var(--blue-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2 : BASIC PRINCIPLE -->
+    <section class="slide bg-green">
+      <div class="kicker"><span class="dot"></span>基本の考え方</div>
+      <h2 class="slide-title heading-face">基本の考え方はシンプルです</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <div class="quote-card">通常の情報は、そのまま安心して入力してOKです</div>
+          <ul class="points" style="margin-top:0.8em;">
+            <li><span class="bullet">✓</span>事務所とSlack・Anthropic・AWSの間で「学習に使わない」「他の目的には使わない」契約を結んでいます</li>
+            <li><span class="bullet">✓</span>だから依頼者へ個別に同意をもらわなくても、普段どおり使えます</li>
+          </ul>
+          <p class="caption-note">根拠：個人情報保護法27条・28条ほか（詳しくは個人情報取り扱い担当者まで）</p>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 160 170" class="sketchy">
+            <path d="M80 12 L138 32 V80 Q138 132 80 158 Q22 132 22 80 V32 Z" fill="var(--green-deep)" stroke="var(--ink)" stroke-width="2.8"/>
+            <path d="M50 82 L72 104 L112 58" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3 : TOOLS -->
+    <section class="slide bg-blue">
+      <div class="kicker"><span class="dot"></span>ツール紹介</div>
+      <h2 class="slide-title heading-face">事務所で使っているツール</h2>
+      <div class="tile-grid">
+        <div class="tile">
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="14" fill="var(--blue-deep)" stroke="var(--ink)" stroke-width="2"/><path d="M20 24 h20 M20 32 h14 M20 40 h20" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
+          <div><h3>Slack（Business+）</h3><p>所内の連絡・相談。保存場所は日本国内です。</p></div>
+        </div>
+        <div class="tile">
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="14" fill="var(--orange-deep)" stroke="var(--ink)" stroke-width="2"/><path d="M30 16 L34 26 L44 30 L34 34 L30 44 L26 34 L16 30 L26 26 Z" fill="#fff"/></svg>
+          <div><h3>Claude（Team）</h3><p>文書作成や調査を手伝うAI。学習には使われません。</p></div>
+        </div>
+        <div class="tile">
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="14" fill="var(--green-deep)" stroke="var(--ink)" stroke-width="2"/><path d="M18 22 L30 14 L42 22 L30 30 Z M18 22 L18 34 L30 42 L30 30 M42 22 L42 34 L30 42" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg>
+          <div><h3>Dropbox</h3><p>資料の保管・共有に利用しています。</p></div>
+        </div>
+        <div class="tile">
+          <svg viewBox="0 0 60 60"><rect x="6" y="6" width="48" height="48" rx="14" fill="var(--pink-deep)" stroke="var(--ink)" stroke-width="2"/><path d="M18 36 Q14 36 14 30 Q14 24 20 24 Q22 16 30 16 Q38 16 40 24 Q46 24 46 30 Q46 36 40 36 Z" fill="#fff"/></svg>
+          <div><h3>Bedrock（AWS）</h3><p>これから使うAI。特に大事な情報はここに。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4 : TRIAGE -->
+    <section class="slide bg-beige">
+      <div class="kicker"><span class="dot"></span>いちばん大事なポイント</div>
+      <h2 class="slide-title heading-face">入力していい情報／気をつける情報</h2>
+      <div class="triage-grid">
+        <div class="triage-card ok">
+          <span class="triage-tag">いつもどおりでOK</span>
+          <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="none" stroke="var(--trust)" stroke-width="4"/><path d="M18 31 L27 40 L43 22" fill="none" stroke="var(--trust)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>氏名・連絡先・事件の内容など</h3>
+          <p>マスキングなしで、Slack・Claudeにそのまま入力してOKです。</p>
+        </div>
+        <div class="triage-card limited">
+          <span class="triage-tag">Bedrock限定（準備中）</span>
+          <svg viewBox="0 0 60 60"><rect x="14" y="10" width="32" height="40" rx="4" fill="none" stroke="var(--orange-deep)" stroke-width="3.5"/><path d="M20 20 h20 M20 28 h20 M20 36 h12" stroke="var(--orange-deep)" stroke-width="3" stroke-linecap="round"/></svg>
+          <h3>カルテ・診断書などの「原本・画像」</h3>
+          <p>将来はBedrockのみで利用可能。展開が終わるまでは入力を保留します。</p>
+        </div>
+        <div class="triage-card no">
+          <span class="triage-tag">絶対に入力しない</span>
+          <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="22" fill="none" stroke="var(--stop)" stroke-width="4.5"/><line x1="16" y1="44" x2="44" y2="16" stroke="var(--stop)" stroke-width="4.5" stroke-linecap="round"/></svg>
+          <h3>マイナンバー・本人確認書類</h3>
+          <p>免許証やマイナンバーカードなど。どのサービスにも入力しません。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5 : TIP -->
+    <section class="slide bg-orange">
+      <div class="kicker"><span class="dot"></span>見分け方のコツ</div>
+      <h2 class="slide-title heading-face">迷ったら、この合言葉</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <div class="quote-card">「原本・画像」はBedrock、<br>「説明・要約」はいつもどおり</div>
+          <div class="example-row">
+            <div class="example good"><span class="mark">◯</span>準備書面に「頸椎捻挫の傷害を負った」と書く → いつもどおりでOK</div>
+            <div class="example bad"><span class="mark">✕</span>カルテの写真をそのまま貼り付ける → 保留（Bedrock限定）</div>
+          </div>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 140 170" class="sketchy">
+            <circle cx="70" cy="46" r="30" fill="#FCEFC9" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M52 30 Q70 40 88 30" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+            <path d="M62 78 L78 78 L76 92 L64 92 Z" fill="#FCEFC9" stroke="var(--ink)" stroke-width="2.2"/>
+            <circle cx="60" cy="48" r="3" fill="var(--ink)"/>
+            <circle cx="80" cy="48" r="3" fill="var(--ink)"/>
+            <path d="M58 60 Q70 66 82 60" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M45 100 Q70 92 95 100 L100 160 L40 160 Z" fill="var(--orange-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M18 8 L22 20 M28 4 L28 18 M38 8 L34 20" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6 : AI AGENT CAUTION -->
+    <section class="slide bg-pink">
+      <div class="kicker"><span class="dot"></span>注意点</div>
+      <h2 class="slide-title heading-face">自動で情報を拾うAIに注意</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <ul class="points">
+            <li><span class="bullet">!</span>Slack↔Claude連携などの自動化されたAIは、気づかないうちに制限された情報を拾ってしまうことがあります</li>
+            <li><span class="bullet">!</span>入力してはいけない情報は、<strong>別のフォルダ・チャンネル</strong>に分けて保管しましょう</li>
+          </ul>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 150 150" class="sketchy">
+            <rect x="42" y="18" width="66" height="52" rx="14" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
+            <circle cx="62" cy="42" r="6" fill="var(--pink-deep)"/>
+            <circle cx="88" cy="42" r="6" fill="var(--pink-deep)"/>
+            <rect x="66" y="6" width="18" height="14" rx="4" fill="#fff" stroke="var(--ink)" stroke-width="2.2"/>
+            <path d="M42 32 L26 24 M108 32 L124 24" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="30" y="90" width="90" height="48" rx="10" fill="rgba(255,255,255,0.7)" stroke="var(--stop)" stroke-width="2.8" stroke-dasharray="7 6"/>
+            <circle cx="75" cy="114" r="16" fill="none" stroke="var(--stop)" stroke-width="4"/>
+            <line x1="65" y1="124" x2="85" y2="104" stroke="var(--stop)" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7 : CLIENT EXPLANATION -->
+    <section class="slide bg-blue">
+      <div class="kicker"><span class="dot"></span>依頼者への配慮</div>
+      <h2 class="slide-title heading-face">依頼者への説明も準備済みです</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <ul class="points">
+            <li><span class="bullet">1</span>委任契約書に「外部サービスを利用することがある」旨の一文を追加しました</li>
+            <li><span class="bullet">2</span>プライバシーポリシーにも利用状況を記載しています</li>
+            <li><span class="bullet">3</span>依頼者から質問があれば、個人情報取り扱い担当者にご相談ください</li>
+          </ul>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 160 130" class="sketchy">
+            <rect x="16" y="30" width="56" height="70" rx="8" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M28 48 h32 M28 58 h32 M28 68 h20" stroke="var(--blue-deep)" stroke-width="3.5" stroke-linecap="round"/>
+            <rect x="88" y="30" width="56" height="70" rx="8" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M100 48 h32 M100 58 h32 M100 68 h20" stroke="var(--blue-deep)" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M58 65 Q80 50 102 65" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M96 58 L102 65 L96 72 M64 58 L58 65 L64 72" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8 : ESCALATION -->
+    <section class="slide bg-orange">
+      <div class="kicker"><span class="dot"></span>困ったときは</div>
+      <h2 class="slide-title heading-face">迷ったら、まず相談を</h2>
+      <div class="body-row">
+        <div class="text-col">
+          <ul class="points">
+            <li><span class="bullet">?</span>判断に迷ったときは、<strong>個人情報取り扱い担当者</strong>に確認しましょう</li>
+            <li><span class="bullet">?</span>ルールは法改正や運用状況にあわせて、今後も見直していきます</li>
+          </ul>
+        </div>
+        <div class="art-col">
+          <svg viewBox="0 0 140 170" class="sketchy">
+            <circle cx="70" cy="46" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/>
+            <path d="M46 38 Q70 8 94 38 Q94 20 70 18 Q46 20 46 38Z" fill="#6B5645" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="60" cy="48" r="3" fill="var(--ink)"/>
+            <circle cx="80" cy="48" r="3" fill="var(--ink)"/>
+            <path d="M60 60 Q70 64 80 60" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M46 100 Q70 90 94 100 L100 160 L40 160 Z" fill="var(--orange-deep)" stroke="var(--ink)" stroke-width="2.5"/>
+            <text x="106" y="34" font-size="34" font-weight="800" fill="var(--accent)" font-family="sans-serif">?</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9 : SUMMARY -->
+    <section class="slide bg-green">
+      <div class="kicker"><span class="dot"></span>まとめ</div>
+      <h2 class="slide-title heading-face">今日のポイント</h2>
+      <div class="body-row">
+        <div class="text-col" style="flex:1 1 100%;">
+          <ul class="num-list">
+            <li><span class="num">1</span>通常の情報は、そのまま入力してOK</li>
+            <li><span class="num">2</span>カルテなどの「原本・画像」はBedrock限定（それまでは保留）</li>
+            <li><span class="num">3</span>マイナンバー・本人確認書類は、どこにも入力しない</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-line">
+        <span>ご不明な点は、個人情報取り扱い担当者までお気軽にどうぞ。</span>
+        <span class="heading-face" style="font-weight:700;">弁護士法人親和法律事務所松山事務所</span>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" id="prevBtn" aria-label="前のスライド">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5 L8 12 L15 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="次のスライド">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 5 L16 12 L9 19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <span class="counter" id="counter">1 / 10</span>
+  </div>
+</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const slides = Array.from(deck.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', (i + 1) + '枚目へ移動');
+    b.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(b);
+  });
+  const dotButtons = Array.from(dotsWrap.children);
+
+  function update() {
+    dotButtons.forEach((d, i) => d.setAttribute('aria-current', i === current ? 'true' : 'false'));
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    slides[current].scrollIntoView({ block: 'nearest', inline: 'start', behavior: 'smooth' });
+    update();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  deck.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { goTo(current + 1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { goTo(current - 1); e.preventDefault(); }
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+        current = slides.indexOf(entry.target);
+        update();
+      }
+    });
+  }, { root: deck, threshold: [0.6] });
+  slides.forEach(s => io.observe(s));
+
+  update();
+</script>
