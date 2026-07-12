@@ -1,0 +1,493 @@
+<title>アソシエイト成長度評価報告書（試作）</title>
+<style>
+  :root {
+    --ground: #f8f8f6;
+    --ink: #22282e;
+    --ink-2: #565f68;
+    --ink-3: #8a929a;
+    --hairline: #dcdedf;
+    --hairline-strong: #b9bec3;
+    --accent: #2f5f88;
+    --series-prev: #8fadc9;
+    --series-curr: #2f5f88;
+    --quote-bg: #f0f1ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #171b20;
+      --ink: #e6e9ec;
+      --ink-2: #a8b0b8;
+      --ink-3: #79828c;
+      --hairline: #2c3238;
+      --hairline-strong: #454d55;
+      --accent: #8fb6d9;
+      --series-prev: #3f5c76;
+      --series-curr: #8fb6d9;
+      --quote-bg: #1e242b;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #f8f8f6;
+    --ink: #22282e;
+    --ink-2: #565f68;
+    --ink-3: #8a929a;
+    --hairline: #dcdedf;
+    --hairline-strong: #b9bec3;
+    --accent: #2f5f88;
+    --series-prev: #8fadc9;
+    --series-curr: #2f5f88;
+    --quote-bg: #f0f1ef;
+  }
+  :root[data-theme="dark"] {
+    --ground: #171b20;
+    --ink: #e6e9ec;
+    --ink-2: #a8b0b8;
+    --ink-3: #79828c;
+    --hairline: #2c3238;
+    --hairline-strong: #454d55;
+    --accent: #8fb6d9;
+    --series-prev: #3f5c76;
+    --series-curr: #8fb6d9;
+    --quote-bg: #1e242b;
+  }
+
+  html { background: var(--ground); }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--ground);
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+    font-size: 15px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 28px 72px;
+  }
+  .mincho, h1, h2 {
+    font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", "MS PMincho", serif;
+    font-weight: 600;
+  }
+
+  /* ---- header ---- */
+  .doc-band {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--hairline-strong);
+    padding-bottom: 10px;
+  }
+  .doc-band .conf { color: var(--accent); }
+  .titleblock { margin: 44px 0 36px; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    color: var(--ink-2);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: 30px;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta {
+    margin-top: 26px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .meta th, .meta td {
+    text-align: left;
+    font-weight: 400;
+    padding: 8px 4px;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  .meta tr:last-child th, .meta tr:last-child td { border-bottom: none; }
+  .meta th { width: 9em; color: var(--ink-3); letter-spacing: 0.1em; }
+
+  /* ---- sections ---- */
+  section { margin-top: 52px; }
+  h2 {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+  h2 .no { margin-right: 1.2em; }
+  .h2-note {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin: 6px 0 0;
+  }
+  p { margin: 16px 0 0; max-width: 42em; }
+  .fig { font-variant-numeric: tabular-nums; }
+
+  /* ---- rubric dumbbell ---- */
+  .legend {
+    display: flex;
+    gap: 22px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin: 20px 0 4px;
+  }
+  .legend .key { display: inline-flex; align-items: center; gap: 7px; }
+  .sw { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .sw.prev { background: var(--ground); border: 2px solid var(--series-prev); }
+  .sw.curr { background: var(--series-curr); }
+  .chart-wrap { overflow-x: auto; }
+  svg text {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+  .db-row:hover .db-label, .db-row:focus .db-label { fill: var(--ink); }
+  .db-row { outline: none; }
+  .db-row:focus-visible circle:last-of-type { stroke: var(--ink); stroke-width: 2; }
+  .scale-note { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+  /* ---- correction table ---- */
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data th {
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    text-align: left;
+    border-bottom: 1px solid var(--hairline-strong);
+    padding: 6px 8px;
+  }
+  table.data td {
+    padding: 9px 8px;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: middle;
+  }
+  table.data td.num, table.data th.num { text-align: right; white-space: nowrap; }
+  .barcell { width: 34%; min-width: 150px; }
+  .barpair { display: flex; flex-direction: column; gap: 2px; }
+  .bar { height: 7px; border-radius: 0 3.5px 3.5px 0; }
+  .bar.prev { background: var(--series-prev); }
+  .bar.curr { background: var(--series-curr); }
+  .delta { color: var(--ink-2); }
+  .tbl-note { font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+
+  /* ---- stat row ---- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 26px;
+    border-left: 1px solid var(--hairline);
+  }
+  .stat { padding: 4px 18px 6px; border-right: 1px solid var(--hairline); }
+  .stat .k { font-size: 12px; letter-spacing: 0.12em; color: var(--ink-3); }
+  .stat .v {
+    font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+    font-size: 27px;
+    line-height: 1.3;
+    margin-top: 2px;
+  }
+  .stat .v small { font-size: 13px; margin-left: 2px; color: var(--ink-2); font-family: inherit; }
+  .stat .d { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  @media (max-width: 620px) {
+    .stats { grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--hairline); }
+    .stat { padding-top: 12px; border-bottom: 1px solid var(--hairline); }
+  }
+
+  /* ---- observations ---- */
+  .obs { margin-top: 22px; max-width: 44em; }
+  .obs h3 {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    margin: 26px 0 0;
+    font-weight: 600;
+  }
+  .obs p { margin-top: 8px; }
+  .excerpt {
+    margin: 12px 0 0 1.5em;
+    padding: 12px 16px;
+    background: var(--quote-bg);
+    font-size: 13px;
+    line-height: 1.85;
+    max-width: 38em;
+  }
+  .excerpt .src {
+    display: block;
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- agenda / notes ---- */
+  ol.agenda { margin: 18px 0 0; padding-left: 0; list-style: none; max-width: 42em; }
+  ol.agenda li { padding: 12px 0; border-bottom: 1px solid var(--hairline); display: flex; gap: 1.2em; }
+  ol.agenda li .n { color: var(--accent); white-space: nowrap; }
+  footer {
+    margin-top: 64px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline-strong);
+    font-size: 11.5px;
+    line-height: 2;
+    color: var(--ink-3);
+  }
+  footer ul { margin: 0; padding-left: 1.4em; }
+
+  /* ---- tooltip ---- */
+  #tt {
+    position: fixed;
+    pointer-events: none;
+    background: var(--ink);
+    color: var(--ground);
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 6px 10px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.12s;
+    z-index: 10;
+    max-width: 260px;
+  }
+  @media (prefers-reduced-motion: reduce) { #tt { transition: none; } }
+</style>
+
+<div class="sheet">
+  <div class="doc-band">
+    <span class="conf">取扱注意　所内限り</span>
+    <span>◯◯法律事務所　アソシエイト育成制度</span>
+  </div>
+
+  <div class="titleblock">
+    <p class="eyebrow">２０２６年度　第１四半期</p>
+    <h1>アソシエイト成長度評価報告書</h1>
+    <table class="meta">
+      <tr><th>対象者</th><td>アソシエイトＡ弁護士（入所２年目）</td></tr>
+      <tr><th>評価期間</th><td class="fig">２０２６年４月１日から同年６月３０日まで</td></tr>
+      <tr><th>資料</th><td class="fig">起案添削記録１４通、案件管理表、所内Ｓｌａｃｋ抽出記録（匿名化済み）</td></tr>
+      <tr><th>作成</th><td class="fig">２０２６年７月１２日　評価者：担当パートナー（ＡＩ分析補助）</td></tr>
+    </table>
+  </div>
+
+  <section>
+    <h2><span class="no">第１</span>総評</h2>
+    <p>本四半期は、起案の形式面が顕著に安定した期であった。書式・表現に関する添削指摘は前期の半分以下となり、添削の重心は構成・論点の深さへ移行しつつある。調査力は五項目中で最も伸びが大きく、根拠を付した一次回答の質が安定してきた。一方、依頼者対応は経験機会そのものが少なく、評価に足る材料が不足している。次期は単独での相談対応の機会を計画的に設けることが課題となる。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">第２</span>ルーブリック評価</h2>
+    <p class="h2-note">５段階評価。１＝常時指導を要する、３＝概略の指示で処理できる、５＝単独処理を任せられる。評点は面談により確定した値。</p>
+    <div class="legend">
+      <span class="key"><span class="sw prev"></span>前期（２０２５年度第４四半期）</span>
+      <span class="key"><span class="sw curr"></span>今期</span>
+    </div>
+    <div class="chart-wrap">
+      <svg viewBox="0 0 760 268" width="100%" role="img" aria-label="ルーブリック評価　前期と今期の比較">
+        <!-- gridlines x: scale 1-5 mapped 170..710 -->
+        <g stroke="var(--hairline)" stroke-width="1">
+          <line x1="170" y1="18" x2="170" y2="228"></line>
+          <line x1="305" y1="18" x2="305" y2="228"></line>
+          <line x1="440" y1="18" x2="440" y2="228"></line>
+          <line x1="575" y1="18" x2="575" y2="228"></line>
+          <line x1="710" y1="18" x2="710" y2="228"></line>
+        </g>
+        <g fill="var(--ink-3)" font-size="12" text-anchor="middle">
+          <text x="170" y="250">１</text>
+          <text x="305" y="250">２</text>
+          <text x="440" y="250">３</text>
+          <text x="575" y="250">４</text>
+          <text x="710" y="250">５</text>
+        </g>
+        <!-- rows: y = 40,82,124,166,208 -->
+        <g class="db-row" tabindex="0" data-tt="起案力：前期２ → 今期３（＋１）">
+          <rect x="0" y="24" width="760" height="34" fill="transparent"></rect>
+          <text class="db-label" x="0" y="45" font-size="13.5" fill="var(--ink-2)">起案力</text>
+          <line x1="305" y1="40" x2="440" y2="40" stroke="var(--series-prev)" stroke-width="2"></line>
+          <circle cx="305" cy="40" r="6" fill="var(--ground)" stroke="var(--series-prev)" stroke-width="2.5"></circle>
+          <circle cx="440" cy="40" r="6.5" fill="var(--series-curr)" stroke="var(--ground)" stroke-width="2"></circle>
+        </g>
+        <g class="db-row" tabindex="0" data-tt="調査力：前期３ → 今期４（＋１）">
+          <rect x="0" y="66" width="760" height="34" fill="transparent"></rect>
+          <text class="db-label" x="0" y="87" font-size="13.5" fill="var(--ink-2)">調査力</text>
+          <line x1="440" y1="82" x2="575" y2="82" stroke="var(--series-prev)" stroke-width="2"></line>
+          <circle cx="440" cy="82" r="6" fill="var(--ground)" stroke="var(--series-prev)" stroke-width="2.5"></circle>
+          <circle cx="575" cy="82" r="6.5" fill="var(--series-curr)" stroke="var(--ground)" stroke-width="2"></circle>
+        </g>
+        <g class="db-row" tabindex="0" data-tt="依頼者対応：前期２ → 今期２（±０）評価材料が不足">
+          <rect x="0" y="108" width="760" height="34" fill="transparent"></rect>
+          <text class="db-label" x="0" y="129" font-size="13.5" fill="var(--ink-2)">依頼者対応</text>
+          <circle cx="305" cy="124" r="6" fill="var(--ground)" stroke="var(--series-prev)" stroke-width="2.5"></circle>
+          <circle cx="305" cy="124" r="3" fill="var(--series-curr)"></circle>
+        </g>
+        <g class="db-row" tabindex="0" data-tt="期日対応：前期２ → 今期３（＋１）">
+          <rect x="0" y="150" width="760" height="34" fill="transparent"></rect>
+          <text class="db-label" x="0" y="171" font-size="13.5" fill="var(--ink-2)">期日対応</text>
+          <line x1="305" y1="166" x2="440" y2="166" stroke="var(--series-prev)" stroke-width="2"></line>
+          <circle cx="305" cy="166" r="6" fill="var(--ground)" stroke="var(--series-prev)" stroke-width="2.5"></circle>
+          <circle cx="440" cy="166" r="6.5" fill="var(--series-curr)" stroke="var(--ground)" stroke-width="2"></circle>
+        </g>
+        <g class="db-row" tabindex="0" data-tt="自律性：前期２ → 今期３（＋１）">
+          <rect x="0" y="192" width="760" height="34" fill="transparent"></rect>
+          <text class="db-label" x="0" y="213" font-size="13.5" fill="var(--ink-2)">自律性</text>
+          <line x1="305" y1="208" x2="440" y2="208" stroke="var(--series-prev)" stroke-width="2"></line>
+          <circle cx="305" cy="208" r="6" fill="var(--ground)" stroke="var(--series-prev)" stroke-width="2.5"></circle>
+          <circle cx="440" cy="208" r="6.5" fill="var(--series-curr)" stroke="var(--ground)" stroke-width="2"></circle>
+        </g>
+      </svg>
+    </div>
+    <p class="scale-note">依頼者対応は前期と同評価（２）。単独対応の機会が３件にとどまり、評価材料が不足している（第５の２参照）。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">第３</span>起案添削分析</h2>
+    <p class="h2-note">第一稿と添削後最終稿との差分をＡＩが分類・集計したもの。数値は起案１通あたりの平均指摘件数（今期の対象１４通）。</p>
+    <table class="data">
+      <thead>
+        <tr>
+          <th>指摘区分</th>
+          <th class="barcell">前期・今期の比較</th>
+          <th class="num">前期</th>
+          <th class="num">今期</th>
+          <th class="num">増減</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-tt="誤字・書式：前期４．２件 → 今期１．５件。事務所書式ルールの定着が顕著">
+          <td>誤字・書式</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:70%"></div><div class="bar curr" style="width:25%"></div></div></td>
+          <td class="num">４．２</td><td class="num">１．５</td><td class="num delta">−２．７</td>
+        </tr>
+        <tr data-tt="文章表現：前期５．８件 → 今期３．２件。冗長表現への指摘が減少">
+          <td>文章表現</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:97%"></div><div class="bar curr" style="width:53%"></div></div></td>
+          <td class="num">５．８</td><td class="num">３．２</td><td class="num delta">−２．６</td>
+        </tr>
+        <tr data-tt="構成・論理：前期３．５件 → 今期２．８件">
+          <td>構成・論理</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:58%"></div><div class="bar curr" style="width:47%"></div></div></td>
+          <td class="num">３．５</td><td class="num">２．８</td><td class="num delta">−０．７</td>
+        </tr>
+        <tr data-tt="要件事実の過不足：前期２．４件 → 今期２．１件。減少幅は小さい">
+          <td>要件事実の過不足</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:40%"></div><div class="bar curr" style="width:35%"></div></div></td>
+          <td class="num">２．４</td><td class="num">２．１</td><td class="num delta">−０．３</td>
+        </tr>
+        <tr data-tt="論点の見落とし：前期１．８件 → 今期１．６件。次期の重点課題">
+          <td>論点の見落とし</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:30%"></div><div class="bar curr" style="width:27%"></div></div></td>
+          <td class="num">１．８</td><td class="num">１．６</td><td class="num delta">−０．２</td>
+        </tr>
+        <tr data-tt="事実摘示の不正確：前期２．６件 → 今期１．２件">
+          <td>事実摘示の不正確</td>
+          <td class="barcell"><div class="barpair"><div class="bar prev" style="width:43%"></div><div class="bar curr" style="width:20%"></div></div></td>
+          <td class="num">２．６</td><td class="num">１．２</td><td class="num delta">−１．４</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="tbl-note">各行とも上段が前期、下段が今期。形式面（誤字・書式、文章表現）の改善が先行し、実質面（要件事実、論点）は今後の課題として残る。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">第４</span>活動量</h2>
+    <div class="stats fig">
+      <div class="stat" data-tt="終結件数：今期６件（前期４件）。難易度Ｂ以上が４件">
+        <div class="k">終結件数</div>
+        <div class="v">６<small>件</small></div>
+        <div class="d">前期比 ＋２件</div>
+      </div>
+      <div class="stat" data-tt="起案数：今期１４通（訴状２、準備書面８、契約書３、内容証明１）">
+        <div class="k">起案数</div>
+        <div class="v">１４<small>通</small></div>
+        <div class="d">うち訴状２通</div>
+      </div>
+      <div class="stat" data-tt="期日出頭：今期１１回（うち単独３回）">
+        <div class="k">期日出頭</div>
+        <div class="v">１１<small>回</small></div>
+        <div class="d">うち単独３回</div>
+      </div>
+      <div class="stat" data-tt="単独相談対応：今期３件。次期の増加が課題">
+        <div class="k">単独相談対応</div>
+        <div class="v">３<small>件</small></div>
+        <div class="d">前期比 ±０件</div>
+      </div>
+    </div>
+    <p class="tbl-note">件数は難易度（Ａ〜Ｃ）を加味せずに集計した参考値であり、単純比較には適さない。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">第５</span>観察事実（所内Ｓｌａｃｋ・報告記録の分析）</h2>
+    <div class="obs">
+      <h3>１　調査力</h3>
+      <p>調査依頼１２件のうち１０件で、一次回答に根拠（条文・裁判例・文献）が付されていた（前期は８件中４件）。結論が出ない場合にも、暫定的な見立てと次の調査手段を添える回答が定着しつつある。</p>
+      <div class="excerpt">
+        「直接の裁判例は見当たりませんでしたが、類似の構造を持つ○○地裁の裁判例（詳細は添付）では〜と判断されています。明日、文献側からも当たってみます。」
+        <span class="src">─ ５月１４日　調査依頼チャンネル（匿名化済み）</span>
+      </div>
+      <p>他方、調査範囲を自分で区切って報告する場面はまだ少なく、依頼者（指示者）側が範囲を指定している。範囲設定を本人に委ねる訓練が次の段階となる。</p>
+      <h3>２　依頼者対応</h3>
+      <p>依頼者との直接のやり取りは記録上少なく、本項は社内報告の質からの間接的な観察にとどまる。期日後・打合せ後の報告は当日中に上がっており、報告の速さは安定している。悪い見通しを含む報告を留保なく上げられている点は評価できる。</p>
+      <div class="excerpt">
+        「本日の弁論準備、裁判官の心証は当方に厳しい印象でした。理由は３点あり〜。次回までに補強できる証拠として〜を検討したいです。」
+        <span class="src">─ ６月２日　案件スレッド（匿名化済み）</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="no">第６</span>次期の重点課題</h2>
+    <ol class="agenda">
+      <li><span class="n">（１）</span><span>準備書面における相手方主張の先回り（反論の予測）を意識した構成。添削の重心はここに移る。</span></li>
+      <li><span class="n">（２）</span><span>単独での相談対応を月２件以上設定し、依頼者対応の評価材料を作る。初回は同席あり、２回目以降は事後報告制とする。</span></li>
+      <li><span class="n">（３）</span><span>調査範囲の設定を本人に委ねる。「どこまで調べれば足りるか」を報告に含めることを求める。</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <ul>
+      <li>本書はデザイン検討用の試作であり、記載の数値・引用はすべて架空のサンプルである。</li>
+      <li>ＡＩによる分析（第３・第５）は評価の参考資料であり、評価は面談を経て評価者が確定する。</li>
+      <li>引用したやり取りは、依頼者名その他の固有名詞を除去した上で保存している。</li>
+    </ul>
+  </footer>
+</div>
+
+<div id="tt" role="status"></div>
+<script>
+  (function () {
+    var tt = document.getElementById('tt');
+    function show(el, x, y) {
+      tt.textContent = el.getAttribute('data-tt');
+      tt.style.opacity = '1';
+      var pad = 14;
+      var w = tt.offsetWidth, h = tt.offsetHeight;
+      var left = Math.min(x + pad, window.innerWidth - w - 8);
+      var top = y - h - pad;
+      if (top < 8) top = y + pad;
+      tt.style.left = left + 'px';
+      tt.style.top = top + 'px';
+    }
+    function hide() { tt.style.opacity = '0'; }
+    document.querySelectorAll('[data-tt]').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) { show(el, e.clientX, e.clientY); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('focus', function () {
+        var r = el.getBoundingClientRect();
+        show(el, r.left + r.width / 2, r.top);
+      });
+      el.addEventListener('blur', hide);
+    });
+  })();
+</script>
