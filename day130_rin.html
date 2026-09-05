@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>読解トレーニング Day130 - 妹</title>
+<style>
+  :root {
+    --primary: #db2777;
+    --primary-soft: #fdf2f8;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 18px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem; margin: 0 0 8px;
+    color: var(--primary);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .section {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .body-text {
+    background: var(--primary-soft); padding: 14px; border-radius: 8px;
+    margin-bottom: 18px; font-size: 1.05rem;
+  }
+  .question {
+    margin: 18px 0 22px; padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .question:last-child { border-bottom: none; }
+  .q-text { font-weight: 600; margin-bottom: 12px; }
+  .q-text .qnum {
+    display: inline-block; min-width: 1.8em;
+    color: var(--primary); font-weight: 700;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    background: #fff; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    cursor: pointer; text-align: left;
+    font: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-soft);
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice.correct { border-color: var(--correct); background: #dcfce7; }
+  .choice.wrong { border-color: var(--wrong); background: #fee2e2; }
+  .feedback {
+    margin-top: 10px; font-weight: 700; font-size: 1.1rem;
+    min-height: 1.5em;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  #summary {
+    background: var(--card); border-radius: 12px;
+    padding: 24px; margin-top: 20px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: none;
+  }
+  #summary.show { display: block; }
+  #summary .score {
+    font-size: 2rem; font-weight: 700; color: var(--primary);
+    margin: 8px 0;
+  }
+  #summary .praise {
+    font-size: 1.4rem; font-weight: 700; color: var(--correct);
+    margin: 12px 0;
+  }
+  #summary .praise.partial { color: var(--primary); }
+  #summary .saved-note {
+    color: var(--muted); font-size: 0.85rem; margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>妹の読解トレーニング Day<span id="day-num">130</span></h1>
+  <div class="meta">レベル: <span id="level-display">Lv10</span> ／ 日付: <span id="date-display"></span></div>
+
+  <div class="section">
+    <div class="body-text" id="body-text"></div>
+    <div id="questions"></div>
+  </div>
+
+  <div id="summary">
+    <div>今日の結果</div>
+    <div class="score"><span id="final-correct">0</span>／<span id="final-total">5</span> 問 正解</div>
+    <div class="praise" id="praise-msg"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </div>
+</div>
+
+<script type="application/json" id="quiz-data">{"day": 130, "person": "rin", "name": "妹", "level": 10, "theme": "シオマネキ", "body": "干潟の泥の上で、片方だけ大きなはさみをゆっくり振り上げては下ろすカニがいる。シオマネキのオスである。その動きが「潮よ、早く満ちてこい」と手招きしているように見えることから、この名がついた。しかし本当の目的は潮を呼ぶことではない。大きなはさみを振るのは、メスへの求愛と、ほかのオスへのなわばりの宣言のためである。ふしぎなことに、この大きなはさみは食事にはほとんど役に立たない。泥の中の小さな栄養分をすくって口に運ぶのは、もっぱら小さいほうのはさみだ。だから、オスはメスの二倍の時間をかけて食事をしなければならない。大きなはさみは、生きるうえでは重くて不便なかざりともいえる。それでも立派なはさみを持つオスほどメスに選ばれるので、この不便さは子孫を残すための投資なのである。なお、はさみを失っても、脱皮のたびに少しずつ再生する。干潟の手招きには、カニの一生の作戦がこめられている。", "questions": [{"q": "シオマネキの名前の由来はどれですか。", "choices": ["塩をまねいて集める習性があるから", "はさみを振る姿が潮を手招きしているように見えるから", "潮が満ちると鳴き声を出すから"], "answer": 1}, {"q": "オスが大きなはさみを振る本当の目的はどれですか。", "choices": ["メスへの求愛と、ほかのオスへのなわばりの宣言", "潮の流れを変えること", "泥の中の獲物をおどろかせること"], "answer": 0}, {"q": "オスがメスの二倍の時間をかけて食事をするのはなぜですか。", "choices": ["メスに食事をゆずるから", "大きなはさみで食べすぎてしまうから", "食事に使えるはさみが小さいほうの一本だけだから"], "answer": 2}, {"q": "「子孫を残すための投資」とは、ここではどういう意味ですか。", "choices": ["不便でも、メスに選ばれるために大きなはさみを持つこと", "子どもにえさを残しておくこと", "貝を集めて財産にすること"], "answer": 0}, {"q": "本文の内容と合うものはどれですか。", "choices": ["大きなはさみは食事の道具として便利である", "失ったはさみは脱皮のたびに少しずつ再生する", "シオマネキは深い海の底にすんでいる"], "answer": 1}]}</script>
+<script>
+window.__DOKKAI_CONFIG__ = {
+  formPostUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe5wziucHVsvyOm6GUUv4CDIVnsIayqbS83eSQv6R8HuUJU4w/formResponse",
+  formFields: {
+    day: "entry.2128463982",
+    person: "entry.96646780",
+    score_correct: "entry.32148882",
+    score_total: "entry.982703649",
+    level: "entry.474209113"
+  }
+};
+</script>
+<script>
+(function () {
+  "use strict";
+  const data = JSON.parse(document.getElementById("quiz-data").textContent);
+  const config = window.__DOKKAI_CONFIG__ || {};
+  const person = data.person; // "sho" or "rin"
+  const total = data.questions.length;
+
+  document.getElementById("date-display").textContent =
+    new Date().toLocaleDateString("ja-JP");
+  document.getElementById("body-text").textContent = data.body;
+  document.getElementById("final-total").textContent = String(total);
+
+  const state = { answers: [], correct: 0, answered: 0 };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render() {
+    const container = document.getElementById("questions");
+    data.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      const qText = document.createElement("div");
+      qText.className = "q-text";
+      qText.innerHTML = '<span class="qnum">Q' + (idx + 1) + '.</span> ' + escapeHtml(q.q);
+      qDiv.appendChild(qText);
+      const choicesDiv = document.createElement("div");
+      choicesDiv.className = "choices";
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
+        choicesDiv.appendChild(btn);
+      });
+      qDiv.appendChild(choicesDiv);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      qDiv.appendChild(fb);
+      container.appendChild(qDiv);
+    });
+  }
+
+  function handleAnswer(idx, chosen, qDiv, btn) {
+    const q = data.questions[idx];
+    const isCorrect = chosen === q.answer;
+    qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
+    btn.classList.add(isCorrect ? "correct" : "wrong");
+    if (!isCorrect) {
+      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      if (correctBtn) correctBtn.classList.add("correct");
+    }
+    const fb = qDiv.querySelector(".feedback");
+    fb.classList.add(isCorrect ? "correct" : "wrong");
+    fb.textContent = isCorrect ? "○ 正解！" : "× 不正解 — 正しい答えは緑色のボタンです";
+    state.answers[idx] = { chosen, correct: isCorrect };
+    if (isCorrect) state.correct++;
+    state.answered++;
+    if (state.answered === total) showSummary();
+  }
+
+  function showSummary() {
+    const sum = document.getElementById("summary");
+    sum.classList.add("show");
+    document.getElementById("final-correct").textContent = state.correct;
+    const praise = document.getElementById("praise-msg");
+    if (state.correct === total) {
+      praise.textContent = "頑張ったね！満点 🎉";
+      praise.classList.remove("partial");
+    } else if (state.correct >= Math.ceil(total * 0.6)) {
+      praise.textContent = "よくできました！";
+      praise.classList.add("partial");
+    } else {
+      praise.textContent = "おつかれさま！また明日もがんばろう。";
+      praise.classList.add("partial");
+    }
+    saveAndSubmit();
+    sum.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function saveAndSubmit() {
+    const record = {
+      day: data.day,
+      person: person,
+      name: data.name,
+      level: data.level || 1,
+      correct: state.correct,
+      total: total,
+      submitted_at: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 80)
+    };
+    try {
+      const key = "dokkai_results_" + person;
+      const prev = JSON.parse(localStorage.getItem(key) || "[]");
+      prev.push(record);
+      localStorage.setItem(key, JSON.stringify(prev));
+    } catch (e) {}
+    if (config.formPostUrl && config.formFields) {
+      const fd = new FormData();
+      const f = config.formFields;
+      if (f.day) fd.append(f.day, String(record.day));
+      if (f.person) fd.append(f.person, person);
+      if (f.score_correct) fd.append(f.score_correct, String(record.correct));
+      if (f.score_total) fd.append(f.score_total, String(record.total));
+      if (f.level) fd.append(f.level, String(record.level));
+      fetch(config.formPostUrl, { method: "POST", body: fd, mode: "no-cors" })
+        .then(() => { document.getElementById("saved-note").textContent = "結果を記録しました ✓"; })
+        .catch(() => { document.getElementById("saved-note").textContent = "結果はこの端末に保存しました"; });
+    } else {
+      document.getElementById("saved-note").textContent = "結果はこの端末に保存しました";
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
