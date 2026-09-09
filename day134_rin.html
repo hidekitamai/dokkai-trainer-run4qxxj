@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>読解トレーニング Day134 - 妹</title>
+<style>
+  :root {
+    --primary: #db2777;
+    --primary-soft: #fdf2f8;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 18px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem; margin: 0 0 8px;
+    color: var(--primary);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .section {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .body-text {
+    background: var(--primary-soft); padding: 14px; border-radius: 8px;
+    margin-bottom: 18px; font-size: 1.05rem;
+  }
+  .question {
+    margin: 18px 0 22px; padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .question:last-child { border-bottom: none; }
+  .q-text { font-weight: 600; margin-bottom: 12px; }
+  .q-text .qnum {
+    display: inline-block; min-width: 1.8em;
+    color: var(--primary); font-weight: 700;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    background: #fff; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    cursor: pointer; text-align: left;
+    font: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-soft);
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice.correct { border-color: var(--correct); background: #dcfce7; }
+  .choice.wrong { border-color: var(--wrong); background: #fee2e2; }
+  .feedback {
+    margin-top: 10px; font-weight: 700; font-size: 1.1rem;
+    min-height: 1.5em;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  #summary {
+    background: var(--card); border-radius: 12px;
+    padding: 24px; margin-top: 20px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: none;
+  }
+  #summary.show { display: block; }
+  #summary .score {
+    font-size: 2rem; font-weight: 700; color: var(--primary);
+    margin: 8px 0;
+  }
+  #summary .praise {
+    font-size: 1.4rem; font-weight: 700; color: var(--correct);
+    margin: 12px 0;
+  }
+  #summary .praise.partial { color: var(--primary); }
+  #summary .saved-note {
+    color: var(--muted); font-size: 0.85rem; margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>妹の読解トレーニング Day<span id="day-num">134</span></h1>
+  <div class="meta">レベル: <span id="level-display">Lv10</span> ／ 日付: <span id="date-display"></span></div>
+
+  <div class="section">
+    <div class="body-text" id="body-text"></div>
+    <div id="questions"></div>
+  </div>
+
+  <div id="summary">
+    <div>今日の結果</div>
+    <div class="score"><span id="final-correct">0</span>／<span id="final-total">5</span> 問 正解</div>
+    <div class="praise" id="praise-msg"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </div>
+</div>
+
+<script type="application/json" id="quiz-data">{"day": 134, "person": "rin", "name": "妹", "level": 10, "theme": "コケ", "body": "石垣や木の根もと、道ばたのすみに、緑のじゅうたんのように広がる小さな植物がある。コケである。コケには、ほかの植物にあるはずの根がない。あるのは「仮根」と呼ばれる糸のようなつくりだが、これは体を岩や土に固定するためのもので、水を吸い上げる力はほとんどない。では、どうやって水を得るのか。コケは、雨やきりの水を、体の表面全体から直接吸いこむのである。だから、土のない岩の上やコンクリートの上でも育つことができる。日照りが続くと、コケはちりちりに縮んで茶色っぽくなり、かれたように見える。ところが、これは仮の姿である。体の水分をぎりぎりまで減らして活動を止め、眠って耐えているだけで、雨が降れば数分で緑によみがえる。この「乾燥にじっと耐えて復活する力」こそコケの最大の武器で、恐竜よりもはるか昔から、四億年以上も地球で生き続けてきた理由だと考えられている。小さな緑のじゅうたんは、地球の大先輩なのである。", "questions": [{"q": "コケの「仮根」の役割はどれですか。", "choices": ["土の深くから水を吸い上げること", "体を岩や土に固定すること", "栄養をたくわえること"], "answer": 1}, {"q": "コケはどうやって水を得ていますか。", "choices": ["虫をつかまえて水分をとる", "仮根で地下水をくみ上げる", "雨やきりの水を体の表面全体から直接吸いこむ"], "answer": 2}, {"q": "土のない岩の上でも育つことができるのはなぜですか。", "choices": ["根から水を吸う必要がなく、表面から水を取りこめるから", "岩の中に根を深くのばすから", "岩をとかして土に変えるから"], "answer": 0}, {"q": "日照りでちりちりに縮んだコケは、どうなっていますか。", "choices": ["活動を止めて耐えており、雨が降れば緑にもどる", "完全にかれていて二度ともどらない", "夜の間だけ緑にもどっている"], "answer": 0}, {"q": "この文章の内容と合うものはどれですか。", "choices": ["コケは水の中でしか生きられない", "コケは乾燥に耐えて復活する力で四億年以上生き続けてきた", "コケは恐竜の時代に生まれた新しい植物である"], "answer": 1}]}</script>
+<script>
+window.__DOKKAI_CONFIG__ = {
+  formPostUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe5wziucHVsvyOm6GUUv4CDIVnsIayqbS83eSQv6R8HuUJU4w/formResponse",
+  formFields: {
+    day: "entry.2128463982",
+    person: "entry.96646780",
+    score_correct: "entry.32148882",
+    score_total: "entry.982703649",
+    level: "entry.474209113"
+  }
+};
+</script>
+<script>
+(function () {
+  "use strict";
+  const data = JSON.parse(document.getElementById("quiz-data").textContent);
+  const config = window.__DOKKAI_CONFIG__ || {};
+  const person = data.person; // "sho" or "rin"
+  const total = data.questions.length;
+
+  document.getElementById("date-display").textContent =
+    new Date().toLocaleDateString("ja-JP");
+  document.getElementById("body-text").textContent = data.body;
+  document.getElementById("final-total").textContent = String(total);
+
+  const state = { answers: [], correct: 0, answered: 0 };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render() {
+    const container = document.getElementById("questions");
+    data.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      const qText = document.createElement("div");
+      qText.className = "q-text";
+      qText.innerHTML = '<span class="qnum">Q' + (idx + 1) + '.</span> ' + escapeHtml(q.q);
+      qDiv.appendChild(qText);
+      const choicesDiv = document.createElement("div");
+      choicesDiv.className = "choices";
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
+        choicesDiv.appendChild(btn);
+      });
+      qDiv.appendChild(choicesDiv);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      qDiv.appendChild(fb);
+      container.appendChild(qDiv);
+    });
+  }
+
+  function handleAnswer(idx, chosen, qDiv, btn) {
+    const q = data.questions[idx];
+    const isCorrect = chosen === q.answer;
+    qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
+    btn.classList.add(isCorrect ? "correct" : "wrong");
+    if (!isCorrect) {
+      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      if (correctBtn) correctBtn.classList.add("correct");
+    }
+    const fb = qDiv.querySelector(".feedback");
+    fb.classList.add(isCorrect ? "correct" : "wrong");
+    fb.textContent = isCorrect ? "○ 正解！" : "× 不正解 — 正しい答えは緑色のボタンです";
+    state.answers[idx] = { chosen, correct: isCorrect };
+    if (isCorrect) state.correct++;
+    state.answered++;
+    if (state.answered === total) showSummary();
+  }
+
+  function showSummary() {
+    const sum = document.getElementById("summary");
+    sum.classList.add("show");
+    document.getElementById("final-correct").textContent = state.correct;
+    const praise = document.getElementById("praise-msg");
+    if (state.correct === total) {
+      praise.textContent = "頑張ったね！満点 🎉";
+      praise.classList.remove("partial");
+    } else if (state.correct >= Math.ceil(total * 0.6)) {
+      praise.textContent = "よくできました！";
+      praise.classList.add("partial");
+    } else {
+      praise.textContent = "おつかれさま！また明日もがんばろう。";
+      praise.classList.add("partial");
+    }
+    saveAndSubmit();
+    sum.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function saveAndSubmit() {
+    const record = {
+      day: data.day,
+      person: person,
+      name: data.name,
+      level: data.level || 1,
+      correct: state.correct,
+      total: total,
+      submitted_at: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 80)
+    };
+    try {
+      const key = "dokkai_results_" + person;
+      const prev = JSON.parse(localStorage.getItem(key) || "[]");
+      prev.push(record);
+      localStorage.setItem(key, JSON.stringify(prev));
+    } catch (e) {}
+    if (config.formPostUrl && config.formFields) {
+      const fd = new FormData();
+      const f = config.formFields;
+      if (f.day) fd.append(f.day, String(record.day));
+      if (f.person) fd.append(f.person, person);
+      if (f.score_correct) fd.append(f.score_correct, String(record.correct));
+      if (f.score_total) fd.append(f.score_total, String(record.total));
+      if (f.level) fd.append(f.level, String(record.level));
+      fetch(config.formPostUrl, { method: "POST", body: fd, mode: "no-cors" })
+        .then(() => { document.getElementById("saved-note").textContent = "結果を記録しました ✓"; })
+        .catch(() => { document.getElementById("saved-note").textContent = "結果はこの端末に保存しました"; });
+    } else {
+      document.getElementById("saved-note").textContent = "結果はこの端末に保存しました";
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
