@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>読解トレーニング Day186 - 妹</title>
+<style>
+  :root {
+    --primary: #db2777;
+    --primary-soft: #fdf2f8;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 18px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem; margin: 0 0 8px;
+    color: var(--primary);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .section {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .body-text {
+    background: var(--primary-soft); padding: 14px; border-radius: 8px;
+    margin-bottom: 18px; font-size: 1.05rem;
+  }
+  .question {
+    margin: 18px 0 22px; padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .question:last-child { border-bottom: none; }
+  .q-text { font-weight: 600; margin-bottom: 12px; }
+  .q-text .qnum {
+    display: inline-block; min-width: 1.8em;
+    color: var(--primary); font-weight: 700;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    background: #fff; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    cursor: pointer; text-align: left;
+    font: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-soft);
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice.correct { border-color: var(--correct); background: #dcfce7; }
+  .choice.wrong { border-color: var(--wrong); background: #fee2e2; }
+  .feedback {
+    margin-top: 10px; font-weight: 700; font-size: 1.1rem;
+    min-height: 1.5em;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  #summary {
+    background: var(--card); border-radius: 12px;
+    padding: 24px; margin-top: 20px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: none;
+  }
+  #summary.show { display: block; }
+  #summary .score {
+    font-size: 2rem; font-weight: 700; color: var(--primary);
+    margin: 8px 0;
+  }
+  #summary .praise {
+    font-size: 1.4rem; font-weight: 700; color: var(--correct);
+    margin: 12px 0;
+  }
+  #summary .praise.partial { color: var(--primary); }
+  #summary .saved-note {
+    color: var(--muted); font-size: 0.85rem; margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>妹の読解トレーニング Day<span id="day-num">186</span></h1>
+  <div class="meta">レベル: <span id="level-display">Lv10</span> ／ 日付: <span id="date-display"></span></div>
+
+  <div class="section">
+    <div class="body-text" id="body-text"></div>
+    <div id="questions"></div>
+  </div>
+
+  <div id="summary">
+    <div>今日の結果</div>
+    <div class="score"><span id="final-correct">0</span>／<span id="final-total">5</span> 問 正解</div>
+    <div class="praise" id="praise-msg"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </div>
+</div>
+
+<script type="application/json" id="quiz-data">{"day": 186, "person": "rin", "name": "妹", "level": 10, "theme": "カタクリ", "body": "カタクリは、冬に葉を落とす木々が茂る林に生える、ユリ科の植物である。春の初めに、紫がかったピンク色の花を、下向きにさかせる。花びらは、うしろへそり返るように開く。この時期の林は、木々がまだ葉を広げていないので、地面まで日光がよくとどく。カタクリは、その短いあいだに葉で光を受け、養分をつくって、地下の球根のような部分にたくわえる。やがて、木々が葉をしげらせて林の中がうす暗くなるころには、カタクリの葉は枯れて、地上から姿を消す。そのあとは、たくわえた養分をたよりに、地下で次の春を待つ。このように、春の短いあいだだけ地上で活動する植物は、「春の妖精」とよばれることがある。カタクリの種子には、アリが好む物質がついている。アリは、それを食べるために種子を巣へ運び、結果として、種子は親の株からはなれた場所へ広がる。種子から育った株が花をさかせるまでには、何年もかかるといわれる。むかしは、地下の部分にたくわえられたでんぷんをとり出して、「かたくり粉」として使った。いま売られている「かたくり粉」の多くは、ジャガイモからとったでんぷんである。", "questions": [{"q": "「春の短いあいだだけ地上で活動する植物」の「活動」の意味として合うものはどれですか。", "choices": ["葉で光を受けて養分をつくり、花をさかせるなど、はたらいたり生長したりすること", "人に見てもらうために、きれいな花をたくさんさかせること", "あちこちの場所へ、自分で動きまわって、すむところを変えること"], "answer": 0}, {"q": "カタクリが、春の初めの短いあいだに、葉で光を受けて養分をつくるのは、なぜですか。", "choices": ["木々の葉がしげって、林の中が、うす暗くて日かげになる時期だから", "木々がまだ葉を広げていなくて、地面まで日光がよくとどく時期だから", "地下にたくわえた養分が、冬のあいだに、すっかりなくなってしまうから"], "answer": 1}, {"q": "「それを食べるために」の「それ」は、何を指していますか。", "choices": ["カタクリの種子についている、アリが好む物質", "カタクリが地下にたくわえた養分", "カタクリの種子そのもの"], "answer": 0}, {"q": "この文章から分かることはどれですか。", "choices": ["木々が葉を広げたあとは、カタクリは、地上で花を次々にさかせて、種子をたくさんつくると考えられる", "林の木々が葉をしげらせる時期が早くなると、カタクリが日光を受けられる期間が短くなり、養分をたくわえにくくなると考えられる", "カタクリは、日光がなくても養分をつくれるので、木々が葉をしげらせる時期が早くなっても、影響はないと考えられる"], "answer": 1}, {"q": "この文章の内容に合うものはどれですか。", "choices": ["カタクリは、種子から育つと、すぐに花をさかせ、アリに運ばれなくても、広い場所に生える植物である", "カタクリは、一年じゅう地上で緑の葉を広げ、日かげの暗い林を好んで育つ植物である", "カタクリは、木々が葉を広げる前の短い春のあいだに養分をたくわえ、そのあとは地下で過ごす植物で、種子はアリに運ばれて広がる"], "answer": 2}]}</script>
+<script>
+window.__DOKKAI_CONFIG__ = {
+  formPostUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe5wziucHVsvyOm6GUUv4CDIVnsIayqbS83eSQv6R8HuUJU4w/formResponse",
+  formFields: {
+    day: "entry.2128463982",
+    person: "entry.96646780",
+    score_correct: "entry.32148882",
+    score_total: "entry.982703649",
+    level: "entry.474209113"
+  }
+};
+</script>
+<script>
+(function () {
+  "use strict";
+  const data = JSON.parse(document.getElementById("quiz-data").textContent);
+  const config = window.__DOKKAI_CONFIG__ || {};
+  const person = data.person; // "sho" or "rin"
+  const total = data.questions.length;
+
+  document.getElementById("date-display").textContent =
+    new Date().toLocaleDateString("ja-JP");
+  document.getElementById("body-text").textContent = data.body;
+  document.getElementById("final-total").textContent = String(total);
+
+  const state = { answers: [], correct: 0, answered: 0 };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render() {
+    const container = document.getElementById("questions");
+    data.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      const qText = document.createElement("div");
+      qText.className = "q-text";
+      qText.innerHTML = '<span class="qnum">Q' + (idx + 1) + '.</span> ' + escapeHtml(q.q);
+      qDiv.appendChild(qText);
+      const choicesDiv = document.createElement("div");
+      choicesDiv.className = "choices";
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
+        choicesDiv.appendChild(btn);
+      });
+      qDiv.appendChild(choicesDiv);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      qDiv.appendChild(fb);
+      container.appendChild(qDiv);
+    });
+  }
+
+  function handleAnswer(idx, chosen, qDiv, btn) {
+    const q = data.questions[idx];
+    const isCorrect = chosen === q.answer;
+    qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
+    btn.classList.add(isCorrect ? "correct" : "wrong");
+    if (!isCorrect) {
+      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      if (correctBtn) correctBtn.classList.add("correct");
+    }
+    const fb = qDiv.querySelector(".feedback");
+    fb.classList.add(isCorrect ? "correct" : "wrong");
+    fb.textContent = isCorrect ? "○ 正解！" : "× 不正解 — 正しい答えは緑色のボタンです";
+    state.answers[idx] = { chosen, correct: isCorrect };
+    if (isCorrect) state.correct++;
+    state.answered++;
+    if (state.answered === total) showSummary();
+  }
+
+  function showSummary() {
+    const sum = document.getElementById("summary");
+    sum.classList.add("show");
+    document.getElementById("final-correct").textContent = state.correct;
+    const praise = document.getElementById("praise-msg");
+    if (state.correct === total) {
+      praise.textContent = "頑張ったね！満点 🎉";
+      praise.classList.remove("partial");
+    } else if (state.correct >= Math.ceil(total * 0.6)) {
+      praise.textContent = "よくできました！";
+      praise.classList.add("partial");
+    } else {
+      praise.textContent = "おつかれさま！また明日もがんばろう。";
+      praise.classList.add("partial");
+    }
+    saveAndSubmit();
+    sum.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function saveAndSubmit() {
+    const record = {
+      day: data.day,
+      person: person,
+      name: data.name,
+      level: data.level || 1,
+      correct: state.correct,
+      total: total,
+      submitted_at: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 80)
+    };
+    try {
+      const key = "dokkai_results_" + person;
+      const prev = JSON.parse(localStorage.getItem(key) || "[]");
+      prev.push(record);
+      localStorage.setItem(key, JSON.stringify(prev));
+    } catch (e) {}
+    if (config.formPostUrl && config.formFields) {
+      const fd = new FormData();
+      const f = config.formFields;
+      if (f.day) fd.append(f.day, String(record.day));
+      if (f.person) fd.append(f.person, person);
+      if (f.score_correct) fd.append(f.score_correct, String(record.correct));
+      if (f.score_total) fd.append(f.score_total, String(record.total));
+      if (f.level) fd.append(f.level, String(record.level));
+      fetch(config.formPostUrl, { method: "POST", body: fd, mode: "no-cors" })
+        .then(() => { document.getElementById("saved-note").textContent = "結果を記録しました ✓"; })
+        .catch(() => { document.getElementById("saved-note").textContent = "結果はこの端末に保存しました"; });
+    } else {
+      document.getElementById("saved-note").textContent = "結果はこの端末に保存しました";
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
