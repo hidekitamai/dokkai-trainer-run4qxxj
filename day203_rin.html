@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>読解トレーニング Day203 - 妹</title>
+<style>
+  :root {
+    --primary: #db2777;
+    --primary-soft: #fdf2f8;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.7; font-size: 18px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font-size: 1.6rem; margin: 0 0 8px;
+    color: var(--primary);
+  }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .section {
+    background: var(--card); border-radius: 12px;
+    padding: 20px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .body-text {
+    background: var(--primary-soft); padding: 14px; border-radius: 8px;
+    margin-bottom: 18px; font-size: 1.05rem;
+  }
+  .question {
+    margin: 18px 0 22px; padding-bottom: 18px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .question:last-child { border-bottom: none; }
+  .q-text { font-weight: 600; margin-bottom: 12px; }
+  .q-text .qnum {
+    display: inline-block; min-width: 1.8em;
+    color: var(--primary); font-weight: 700;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    background: #fff; border: 2px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    cursor: pointer; text-align: left;
+    font: inherit; color: var(--text);
+    transition: all 0.15s;
+  }
+  .choice:hover:not(:disabled) {
+    border-color: var(--primary); background: var(--primary-soft);
+  }
+  .choice:disabled { cursor: default; opacity: 0.85; }
+  .choice.correct { border-color: var(--correct); background: #dcfce7; }
+  .choice.wrong { border-color: var(--wrong); background: #fee2e2; }
+  .feedback {
+    margin-top: 10px; font-weight: 700; font-size: 1.1rem;
+    min-height: 1.5em;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  #summary {
+    background: var(--card); border-radius: 12px;
+    padding: 24px; margin-top: 20px;
+    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    display: none;
+  }
+  #summary.show { display: block; }
+  #summary .score {
+    font-size: 2rem; font-weight: 700; color: var(--primary);
+    margin: 8px 0;
+  }
+  #summary .praise {
+    font-size: 1.4rem; font-weight: 700; color: var(--correct);
+    margin: 12px 0;
+  }
+  #summary .praise.partial { color: var(--primary); }
+  #summary .saved-note {
+    color: var(--muted); font-size: 0.85rem; margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>妹の読解トレーニング Day<span id="day-num">203</span></h1>
+  <div class="meta">レベル: <span id="level-display">Lv10</span> ／ 日付: <span id="date-display"></span></div>
+
+  <div class="section">
+    <div class="body-text" id="body-text"></div>
+    <div id="questions"></div>
+  </div>
+
+  <div id="summary">
+    <div>今日の結果</div>
+    <div class="score"><span id="final-correct">0</span>／<span id="final-total">5</span> 問 正解</div>
+    <div class="praise" id="praise-msg"></div>
+    <div class="saved-note" id="saved-note"></div>
+  </div>
+</div>
+
+<script type="application/json" id="quiz-data">{"day": 203, "person": "rin", "name": "妹", "level": 10, "theme": "ヨモギ", "body": "ヨモギは、日当たりのよい野原や道ばたに生える、多年草である。春に、地面からやわらかい若葉が出て、これをつんで、草もちやだんごにまぜる風習が、各地で続いている。若葉は、おひたしやてんぷらにして、食べることもある。また、葉は、昔から、薬草としても使われてきた。葉のうらには、白く細かい毛がびっしりと生えており、さわると、ふわふわしている。この毛は、昔から、もぐさの材料として使われてきた。もぐさとは、お灸に使う、火をつけてもやす材料のことである。また、葉をもむと、独特の強いかおりがする。これは、ヨモギが虫に食べられにくくなるための成分によるものと考えられている。秋には、目立たない小さな花を、たくさんつける。花粉は、風にのって運ばれるため、花粉症の原因のひとつにもなる。地下にのびるくきで広がるため、刈り取っても、また、ふえやすい。草たけは、ひざから腰ほどになるものが多い。ヨモギは、昔から暮らしに役立てられてきた一方、強い生命力をもつ植物でもある。", "questions": [{"q": "「もぐさ」とは何ですか。本文の説明に合うものを選びなさい。", "choices": ["虫をよせつけないために、まく薬", "お灸に使う、火をつけてもやす材料", "草もちに入れて、色をつける材料"], "answer": 1}, {"q": "ヨモギが、刈り取られても、また、ふえやすいのは、なぜですか。", "choices": ["葉をもむと、強いかおりが出るから", "風にのって、たねが遠くまで運ばれるから", "地下にのびるくきで、広がっていくから"], "answer": 2}, {"q": "「この毛は、昔から、もぐさの材料として使われてきた」の「この毛」は、何の毛を指していますか。", "choices": ["地下にのびるくきに生えている毛", "葉のうらに生えている、白く細かい毛", "秋につける、小さな花の毛"], "answer": 1}, {"q": "葉の強いかおりについて、この文章から分かることはどれですか。", "choices": ["虫に食べられにくくなるための成分によるものと、考えられている", "人が、草もちを食べやすくするための成分によるものと、考えられている", "葉が、水を吸い上げるために必要な成分によるものと、考えられている"], "answer": 0}, {"q": "この文章の要旨として合うものはどれですか。", "choices": ["ヨモギは、暮らしに役立てられてきた、強い生命力をもつ植物である", "ヨモギは、春にだけ見られ、秋には、すがたを消す植物である", "ヨモギは、においが強いので、食べ物には使えない植物である"], "answer": 0}]}</script>
+<script>
+window.__DOKKAI_CONFIG__ = {
+  formPostUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe5wziucHVsvyOm6GUUv4CDIVnsIayqbS83eSQv6R8HuUJU4w/formResponse",
+  formFields: {
+    day: "entry.2128463982",
+    person: "entry.96646780",
+    score_correct: "entry.32148882",
+    score_total: "entry.982703649",
+    level: "entry.474209113"
+  }
+};
+</script>
+<script>
+(function () {
+  "use strict";
+  const data = JSON.parse(document.getElementById("quiz-data").textContent);
+  const config = window.__DOKKAI_CONFIG__ || {};
+  const person = data.person; // "sho" or "rin"
+  const total = data.questions.length;
+
+  document.getElementById("date-display").textContent =
+    new Date().toLocaleDateString("ja-JP");
+  document.getElementById("body-text").textContent = data.body;
+  document.getElementById("final-total").textContent = String(total);
+
+  const state = { answers: [], correct: 0, answered: 0 };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function render() {
+    const container = document.getElementById("questions");
+    data.questions.forEach((q, idx) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+      const qText = document.createElement("div");
+      qText.className = "q-text";
+      qText.innerHTML = '<span class="qnum">Q' + (idx + 1) + '.</span> ' + escapeHtml(q.q);
+      qDiv.appendChild(qText);
+      const choicesDiv = document.createElement("div");
+      choicesDiv.className = "choices";
+      q.choices.forEach((c, ci) => {
+        const btn = document.createElement("button");
+        btn.className = "choice"; btn.type = "button"; btn.textContent = c;
+        btn.addEventListener("click", () => handleAnswer(idx, ci, qDiv, btn));
+        choicesDiv.appendChild(btn);
+      });
+      qDiv.appendChild(choicesDiv);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      qDiv.appendChild(fb);
+      container.appendChild(qDiv);
+    });
+  }
+
+  function handleAnswer(idx, chosen, qDiv, btn) {
+    const q = data.questions[idx];
+    const isCorrect = chosen === q.answer;
+    qDiv.querySelectorAll(".choice").forEach(b => { b.disabled = true; });
+    btn.classList.add(isCorrect ? "correct" : "wrong");
+    if (!isCorrect) {
+      const correctBtn = qDiv.querySelectorAll(".choice")[q.answer];
+      if (correctBtn) correctBtn.classList.add("correct");
+    }
+    const fb = qDiv.querySelector(".feedback");
+    fb.classList.add(isCorrect ? "correct" : "wrong");
+    fb.textContent = isCorrect ? "○ 正解！" : "× 不正解 — 正しい答えは緑色のボタンです";
+    state.answers[idx] = { chosen, correct: isCorrect };
+    if (isCorrect) state.correct++;
+    state.answered++;
+    if (state.answered === total) showSummary();
+  }
+
+  function showSummary() {
+    const sum = document.getElementById("summary");
+    sum.classList.add("show");
+    document.getElementById("final-correct").textContent = state.correct;
+    const praise = document.getElementById("praise-msg");
+    if (state.correct === total) {
+      praise.textContent = "頑張ったね！満点 🎉";
+      praise.classList.remove("partial");
+    } else if (state.correct >= Math.ceil(total * 0.6)) {
+      praise.textContent = "よくできました！";
+      praise.classList.add("partial");
+    } else {
+      praise.textContent = "おつかれさま！また明日もがんばろう。";
+      praise.classList.add("partial");
+    }
+    saveAndSubmit();
+    sum.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function saveAndSubmit() {
+    const record = {
+      day: data.day,
+      person: person,
+      name: data.name,
+      level: data.level || 1,
+      correct: state.correct,
+      total: total,
+      submitted_at: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 80)
+    };
+    try {
+      const key = "dokkai_results_" + person;
+      const prev = JSON.parse(localStorage.getItem(key) || "[]");
+      prev.push(record);
+      localStorage.setItem(key, JSON.stringify(prev));
+    } catch (e) {}
+    if (config.formPostUrl && config.formFields) {
+      const fd = new FormData();
+      const f = config.formFields;
+      if (f.day) fd.append(f.day, String(record.day));
+      if (f.person) fd.append(f.person, person);
+      if (f.score_correct) fd.append(f.score_correct, String(record.correct));
+      if (f.score_total) fd.append(f.score_total, String(record.total));
+      if (f.level) fd.append(f.level, String(record.level));
+      fetch(config.formPostUrl, { method: "POST", body: fd, mode: "no-cors" })
+        .then(() => { document.getElementById("saved-note").textContent = "結果を記録しました ✓"; })
+        .catch(() => { document.getElementById("saved-note").textContent = "結果はこの端末に保存しました"; });
+    } else {
+      document.getElementById("saved-note").textContent = "結果はこの端末に保存しました";
+    }
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
